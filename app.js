@@ -94,6 +94,7 @@ async function renderInicio() {
   const saud = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite';
   const tile = (t, ic, label, info) => `<button class="tile" data-go="${t}"><span style="font-size:22px">${ic}</span><b>${label}</b><span class="mut">${info}</span></button>`;
   let h = `<div class="card"><h2>${saud}${nome ? ', ' + esc(nome) : ''}!</h2><p class="mut">${fmtDia(hoje)}</p></div>`;
+  if ((S.profile.config || {}).ajuda_versao !== window.AJUDA.VERSAO) h += `<div class="alert">${(S.profile.config || {}).ajuda_versao ? 'O app foi atualizado. Veja as novidades e como usar.' : 'Primeira vez aqui? Veja o treinamento rápido de como usar o app.'} <button class="s" data-go="ajuda">Abrir treinamento</button></div>`;
   h += validadeHTML() + lemb + alertasHTML();
   h += `<div class="card"><h2>Hoje</h2><div class="grid2">
     <div class="met"><span class="mut">Sono registrado</span><b>${sono ? (sono.qualidade != null ? sono.qualidade + '/10' : 'sim') : '—'}</b></div>
@@ -117,6 +118,7 @@ async function renderInicio() {
     ${tile('emocional', '🧠', 'Emocional', (S.profile.config || {}).emoc_inicio ? 'programa em andamento' : 'programa de 10 semanas')}
     ${tile('relatorio', '📊', 'Relatórios', '7 e 30 dias')}
     ${tile('pesquisa', '⭐', 'Avaliar o app', 'sua opinião')}
+    ${tile('ajuda', '🎓', 'Como usar', 'treinamento do app')}
     ${S.profile.is_admin ? tile('admin', '⚙️', 'Administração', 'usuários e pesquisas') : ''}
   </div>`;
   $('#app').innerHTML = h;
@@ -124,6 +126,19 @@ async function renderInicio() {
   $('#ini_sem').onclick = renderSemanal;
   const cb = $('#campBtn'); if (cb) cb.onclick = renderPesquisa;
   const sbn = $('#semBtn'); if (sbn) sbn.onclick = renderSemanal;
+}
+
+// ---------- TREINAMENTO ----------
+function renderAjuda() {
+  const A = window.AJUDA;
+  let h = `<div class="card"><h2>Como usar o app</h2><p class="mut">Versão ${esc(A.VERSAO)}</p>
+  <h3>Novidades</h3><ul>${A.NOVIDADES.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></div>`;
+  A.LICOES.filter((l) => !l.admin || S.profile.is_admin).forEach((l, k) => {
+    h += `<details class="card" ${k === 0 ? 'open' : ''}><summary><b>${esc(l.t)}</b></summary><ol>${l.p.map((p) => `<li style="margin:6px 0">${esc(p)}</li>`).join('')}</ol></details>`;
+  });
+  h += `<div class="card"><button class="b" id="aj_ok" style="width:100%">Entendi, ir para o início</button></div>`;
+  $('#app').innerHTML = h; window.scrollTo(0, 0);
+  $('#aj_ok').onclick = () => { saveConfig({ ajuda_versao: A.VERSAO }).catch(() => {}); go('inicio'); };
 }
 
 // ---------- RELATÓRIO SEMANAL ----------
@@ -313,7 +328,7 @@ document.querySelectorAll('#nav button').forEach((b) => (b.onclick = () => go(b.
 function go(t) {
   S.tab = t;
   document.querySelectorAll('#nav button').forEach((b) => b.classList.toggle('on', b.dataset.t === t));
-  ({ inicio: renderInicio, hoje: renderHoje, plano: renderPlano, avaliacao: renderAvaliacao, exames: renderExames, emocional: renderEmocional, relatorio: renderRelatorio, admin: renderAdmin }[t])();
+  ({ ajuda: renderAjuda, inicio: renderInicio, hoje: renderHoje, plano: renderPlano, avaliacao: renderAvaliacao, exames: renderExames, emocional: renderEmocional, relatorio: renderRelatorio, admin: renderAdmin }[t])();
   window.scrollTo(0, 0);
 }
 
