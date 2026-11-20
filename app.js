@@ -5,6 +5,18 @@ const sb = supabase.createClient(SB_URL, SB_KEY);
 const D = APPDATA;
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const AVISO_TXT = 'Aviso: o questionário serve para personalizar a rotina e as sugestões. Ele não é diagnóstico e não substitui o médico ou o nutricionista. Mudanças em remédios dependem sempre do médico.';
+const AVISO_HTML = `<div class="alert" style="margin-top:10px"><b>Aviso:</b> o questionário serve para personalizar a rotina e as sugestões. Ele não é diagnóstico e não substitui o médico ou o nutricionista. Mudanças em remédios dependem sempre do médico.</div>`;
+const CINTURA_SVG = `<svg viewBox="0 0 220 230" style="width:170px;display:block;margin:4px 0 8px" role="img" aria-label="Onde medir a cintura">
+<title>Onde medir a cintura</title>
+<g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+<circle cx="110" cy="22" r="16"/><path d="M96 40 Q70 46 64 70 L58 120 Q62 150 72 170 L78 225"/><path d="M124 40 Q150 46 156 70 L162 120 Q158 150 148 170 L142 225"/>
+<path d="M64 70 L40 140"/><path d="M156 70 L180 140"/><path d="M110 170 L110 225"/></g>
+<g stroke="#2f6f5e" stroke-width="1.5" fill="none" stroke-dasharray="4 3"><path d="M60 100 H160"/><path d="M62 150 H158"/></g>
+<text x="166" y="103" font-size="10" fill="currentColor">última costela</text><text x="164" y="153" font-size="10" fill="currentColor">osso do quadril</text>
+<ellipse cx="110" cy="125" rx="52" ry="7" fill="none" stroke="#d85a30" stroke-width="3.5"/>
+<text x="4" y="128" font-size="11" fill="#d85a30" font-weight="bold">medir aqui</text></svg>
+<div class="mut" style="margin-bottom:6px">Em pé, barriga relaxada: passe a fita no meio entre a última costela e o osso do quadril (perto do umbigo), sem apertar, e leia ao soltar o ar.</div>`;
 const S = { user: null, profile: null, tab: 'inicio', dia: hojeISO(), assess: null };
 
 function hojeISO(d = new Date()) { const z = new Date(d.getTime() - d.getTimezoneOffset() * 60000); return z.toISOString().slice(0, 10); }
@@ -307,7 +319,7 @@ function renderLogin(modo = 'entrar') {
   <div class="q"><div>Senha (mínimo 6 caracteres)</div><input id="lsenha" type="password"></div>
   <div class="row"><button class="b" id="lgo">${modo === 'entrar' ? 'Entrar' : 'Criar conta'}</button>
   <button class="s" id="ltroca">${modo === 'entrar' ? 'Criar conta nova' : 'Já tenho conta'}</button></div>
-  <p class="mut">Este app ajuda a medir e organizar alimentação, exercícios e rotina. Ele não substitui o médico ou o nutricionista e nunca indica remédios ou suplementos.</p></div>`;
+  <p class="mut">Este app ajuda a medir e organizar alimentação, exercícios e rotina e nunca indica remédios ou suplementos.</p>${AVISO_HTML}</div>`;
   $('#ltroca').onclick = () => renderLogin(modo === 'entrar' ? 'criar' : 'entrar');
   $('#lgo').onclick = async () => {
     const email = $('#lemail').value.trim(), password = $('#lsenha').value;
@@ -356,7 +368,13 @@ function regrasAvaliacao(a) {
   const diab = has('cond_metab', 'Diabetes tipo 1') || has('cond_metab', 'Diabetes tipo 2') || has('cond_metab', 'Pré-diabetes');
   const semAuto = yes('gestante') || has('cirurgias', 'Bariátrica') || has('tratamentos', 'Quimioterapia ou radioterapia') || has('cond_mental', 'Transtorno alimentar') || has('cond_outras', 'Câncer (tratamento ou acompanhamento)');
   if (semAuto) al.push(['danger', 'Pela sua situação (gestação, bariátrica, tratamento de câncer ou transtorno alimentar), o app não monta plano sozinho. Use o registro e siga a orientação da sua equipe de saúde.']);
-  if ((yes('insulina') || has('rem_diabetes', 'Glibenclamida') || has('rem_diabetes', 'Gliclazida')) && a.horario_treino === 'Antes do trabalho') al.push(['', 'Você usa insulina ou remédio que pode baixar muito a glicose e treina cedo: coma algo pequeno antes (meia fruta) e pare se sentir tremor, suor frio ou tontura.']);
+  if (yes('insulina') && a.horario_treino === 'Antes do trabalho') al.push(['', 'Você usa insulina ou remédio que pode baixar muito a glicose e treina cedo: coma algo pequeno antes (meia fruta) e pare se sentir tremor, suor frio ou tontura.']);
+  if (has('rem_tipos', 'Anticoagulante')) al.push(['', 'Você usa anticoagulante: mantenha a quantidade de verduras verde-escuras parecida todos os dias (não corte nem exagere de repente) e cuide com quedas nos exercícios. Dúvidas, fale com seu médico.']);
+  if (has('rem_tipos', 'Diurético')) al.push(['', 'Você usa diurético: confirme com seu médico a quantidade de água recomendada para você.']);
+  if (has('rem_tipos', 'Corticoide')) al.push(['', 'Você usa corticoide: ele pode subir a glicose e enfraquecer os ossos. Leve seus registros ao médico.']);
+  if (a.cond_controle === 'Não' || a.cond_controle === 'Não sei' || a.acompanhamento === 'Não') al.push(['', 'Suas condições de saúde não estão controladas ou sem acompanhamento: marque uma consulta e leve os relatórios do app.']);
+  const vacs = ['vac_gripe', 'vac_covid', 'vac_hepb', 'vac_dt', 'vac_triplice', 'vac_febre', 'vac_pneumo', 'vac_hpv'].filter((k) => a[k] === 'Atrasada' || a[k] === 'Não sei');
+  if (vacs.length) al.push(['', 'Há vacinas atrasadas ou que você não sabe se tomou. Leve sua caderneta à unidade de saúde: as vacinas do calendário são gratuitas no SUS.']);
   if (has('cond_rins', 'Doença renal crônica') || has('cond_rins', 'Diálise')) al.push(['danger', 'Com doença nos rins, o app não aumenta a proteína. Converse com seu médico ou nutricionista sobre as quantidades.']);
   if (has('cond_coracao', 'Infarto ou angina') || has('cond_coracao', 'Insuficiência cardíaca') || has('cirurgias', 'Coração') || a.escada_sensacao === 'Com falta de ar') al.push(['danger', 'Antes de começar ou aumentar os exercícios, peça liberação ao seu médico.']);
   if (yes('cirurgia_recente')) al.push(['danger', 'Cirurgia nos últimos 3 meses: exercícios só depois da liberação médica.']);
@@ -553,7 +571,7 @@ async function renderPlano() {
   const { data: sugs } = await sb.from('plan_suggestions').select('*').eq('status', 'pendente').order('created_at', { ascending: false });
   let h = '';
   if (sugs && sugs.length) {
-    h += `<div class="card"><h2>Sugestões de mudança</h2><p class="mut">Nada muda sem você confirmar. Ao aceitar, ajuste os itens abaixo conforme a sugestão.</p>`;
+    h += `<div class="card"><h2>Sugestões de mudança</h2><p class="mut">Nada muda sem você confirmar. Ao aceitar, ajuste os itens abaixo conforme a sugestão.</p>${AVISO_HTML}`;
     sugs.forEach((s) => { h += `<div class="alert"><div>${esc(s.texto)}</div><div class="mut">${esc(s.origem || '')}</div><div class="row" style="margin-top:6px"><button class="s sg" data-id="${s.id}" data-st="aceita">Aceitar</button><button class="s sg" data-id="${s.id}" data-st="recusada">Recusar</button></div></div>`; });
     h += '</div>';
   }
@@ -602,11 +620,11 @@ async function carregarModelo() {
 // ---------- AVALIAÇÃO ----------
 function renderAvaliacao() {
   const a = S.assess?.answers || {};
-  let h = `<div class="card"><h2>Questionário de avaliação</h2><p class="mut">Responda o que souber; pode deixar em branco. Refaça a cada 30 dias.${S.assess ? ' Última avaliação: ' + new Date(S.assess.created_at).toLocaleDateString('pt-BR') + '.' : ''}</p></div>`;
+  let h = `<div class="card"><h2>Questionário de avaliação</h2>${AVISO_HTML}<p class="mut">Responda o que souber; pode deixar em branco. Refaça a cada 30 dias.${S.assess ? ' Última avaliação: ' + new Date(S.assess.created_at).toLocaleDateString('pt-BR') + '.' : ''}</p></div>`;
   h += alertasHTML();
   D.QUESTIONARIO.forEach((sec, si) => {
     h += `<details class="card" ${si === 0 ? 'open' : ''}><summary><b>${sec.sec}</b>${sec.reav ? ' <span class="tag">mensal</span>' : ''}</summary>`;
-    sec.q.forEach(([id, t, tp, opts]) => {
+    sec.q.forEach(([id, t, tp, opts, only]) => {
       const v = a[id];
       let inp = '';
       if (tp === 'n') inp = `<input type="number" step="any" data-q="${id}" value="${esc(v ?? '')}">`;
@@ -617,12 +635,15 @@ function renderAvaliacao() {
       else if (tp === 's') inp = `<div class="opts">${['Sim', 'Não'].map((o) => `<label><input type="radio" name="${id}" data-q="${id}" value="${o}" ${v === o ? 'checked' : ''}>${o}</label>`).join('')}</div>`;
       else if (tp === 'u') inp = `<div class="opts">${opts.map((o) => `<label><input type="radio" name="${id}" data-q="${id}" value="${esc(o)}" ${v === o ? 'checked' : ''}>${esc(o)}</label>`).join('')}</div>`;
       else if (tp === 'm') inp = `<div class="opts">${opts.map((o) => `<label><input type="checkbox" data-qm="${id}" value="${esc(o)}" ${(v || []).includes(o) ? 'checked' : ''}>${esc(o)}</label>`).join('')}</div>`;
-      h += `<div class="q"><div>${esc(t)}</div>${inp}</div>`;
+      const desenho = id === 'cintura' ? CINTURA_SVG : '';
+      h += `<div class="q" ${only ? `data-only="${only}"` : ''}><div>${esc(t)}</div>${desenho}${inp}</div>`;
     });
     h += '</details>';
   });
-  h += `<div class="card"><button class="b" id="a_save" style="width:100%">Salvar avaliação e gerar sugestões</button></div>`;
+  h += `<div class="card"><button class="b" id="a_save" style="width:100%">Salvar avaliação e gerar sugestões</button>${AVISO_HTML}</div>`;
   $('#app').innerHTML = h;
+  const filtraSexo = () => { const sx = document.querySelector('input[name="sexo"]:checked')?.value || S.profile.sexo || ''; document.querySelectorAll('[data-only]').forEach((q) => (q.style.display = !sx || q.dataset.only === sx ? '' : 'none')); };
+  document.querySelectorAll('input[name="sexo"]').forEach((r) => (r.onchange = filtraSexo)); filtraSexo();
   $('#a_save').onclick = async () => {
     const ans = {};
     document.querySelectorAll('[data-q]').forEach((el) => {
@@ -647,11 +668,11 @@ function renderAvaliacao() {
 async function renderExames() {
   const { data: ex } = await sb.from('exam_results').select('*').order('data_coleta', { ascending: false });
   let h = `<div class="card"><h2>Registrar exame</h2>
-  <div class="q"><div>Exame</div><select id="x_ex">${D.EXAMES.map((e) => `<option>${e[0]}</option>`).join('')}<option value="__outro">Outro…</option></select><input id="x_outro" placeholder="Nome do exame" style="display:none;margin-top:6px"></div>
+  <div class="q"><div>Exame</div><select id="x_ex">${D.EXAMES.filter((e) => !e[6] || !S.profile.sexo || e[6] === S.profile.sexo).map((e) => `<option>${e[0]}</option>`).join('')}<option value="__outro">Outro…</option></select><input id="x_outro" placeholder="Nome do exame" style="display:none;margin-top:6px"></div>
   <div class="row"><div style="flex:1"><div class="mut">Data da coleta</div><input type="date" id="x_data" value="${hojeISO()}"></div><div style="flex:1"><div class="mut">Valor</div><input type="number" step="any" id="x_val"></div><div style="flex:1"><div class="mut">Unidade</div><input id="x_un"></div></div>
   <div class="row" style="margin-top:8px"><div style="flex:1"><div class="mut">Referência mínima (do laudo)</div><input type="number" step="any" id="x_min"></div><div style="flex:1"><div class="mut">Referência máxima (do laudo)</div><input type="number" step="any" id="x_max"></div></div>
   <div style="margin-top:8px"><button class="b" id="x_save">Salvar exame</button></div>
-  <p class="mut">Use sempre a referência do seu laudo. O app sugere mudanças só em alimentação e exercícios; nunca remédios ou suplementos.</p></div>`;
+  <p class="mut">Use sempre a referência do seu laudo. O app sugere mudanças só em alimentação e exercícios; nunca remédios ou suplementos.</p>${AVISO_HTML}</div>`;
   const porExame = {};
   (ex || []).forEach((e) => (porExame[e.exame] = porExame[e.exame] || []).push(e));
   h += `<div class="card"><h2>Histórico</h2>${!ex || !ex.length ? '<p class="mut">Nenhum exame registrado.</p>' : ''}`;

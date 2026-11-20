@@ -1,8 +1,13 @@
 // Treinamento de uso do sistema. Atualize este arquivo sempre que o app mudar
 // e aumente a VERSAO para que todos vejam o aviso de novidades.
 window.AJUDA = {
-  VERSAO: '1.0 — 20/11/2026',
+  VERSAO: '1.1 — 20/11/2026',
   NOVIDADES: [
+    'Desenho ensinando onde medir a cintura na avaliação.',
+    'Perguntas e exames conforme o sexo: PSA e testosterona para homens; preventivo, mamografia, estradiol e FSH para mulheres.',
+    'Novo bloco de vacinas do Calendário Nacional 2026, com gripe e covid-19.',
+    'Mais condições e exames com o mesmo peso (rins, fígado, ácido úrico, anemia, cálcio, potássio) e alertas para anticoagulante, diurético e corticoide.',
+    'Aviso de que o app não é diagnóstico em todas as telas.',
     'Primeira versão do app: painel de início, registro do dia, plano, avaliação, exames, programa emocional, relatórios, relatório semanal e pesquisa de satisfação.'
   ],
   LICOES: [
@@ -14,6 +19,10 @@ window.AJUDA = {
     { t: '1. Comece pela avaliação', p: [
       'Toque em Avaliação e responda o questionário. Pode deixar em branco o que não souber.',
       'As respostas geram alertas de saúde no painel e sugestões de mudança na aba Plano.',
+      'Para medir a cintura, siga o desenho que aparece na pergunta: fita no meio entre a última costela e o osso do quadril, sem apertar.',
+      'Algumas perguntas mudam conforme o sexo informado no primeiro bloco.',
+      'No bloco de vacinas, marque Em dia, Atrasada ou Não sei. Vacina atrasada gera o lembrete para levar a caderneta à unidade de saúde.',
+      'Lembre-se: o questionário não é diagnóstico e não substitui o médico ou o nutricionista. Mudanças em remédios dependem sempre do médico.',
       'Refaça a avaliação a cada 30 dias. Os blocos com a etiqueta "mensal" são os mais importantes de atualizar.'
     ]},
     { t: '2. Monte o seu plano', p: [
@@ -34,6 +43,7 @@ window.AJUDA = {
     ]},
     { t: '4. Registre os exames', p: [
       'Em Exames, escolha o exame, a data da coleta, o valor e a referência mínima e máxima do seu laudo.',
+      'A lista de exames muda conforme o sexo: PSA e testosterona aparecem para homens; estradiol e FSH para mulheres.',
       'O app mostra se está na faixa, alto ou baixo, e se subiu ou desceu em relação ao anterior.',
       'Quando o resultado pede mudança na alimentação ou no exercício, aparece uma sugestão na aba Plano.'
     ]},

@@ -112,11 +112,19 @@ APPDATA.QUESTIONARIO = [
     ['cond_rins', 'Rins e urina', 'm', ['Doença renal crônica', 'Cálculo renal', 'Diálise', 'Próstata aumentada', 'Incontinência']],
     ['cond_digest', 'Fígado e digestão', 'm', ['Gordura no fígado', 'Hepatite ou cirrose', 'Gastrite ou refluxo', 'Intestino irritável', 'Doença celíaca', 'Intolerância à lactose', 'Intestino preso', 'Crohn ou retocolite']],
     ['cond_pulmao', 'Pulmões e sono', 'm', ['Asma', 'DPOC ou bronquite crônica', 'Apneia do sono']],
-    ['cond_hormonio', 'Hormônios', 'm', ['Hipotireoidismo', 'Hipertireoidismo', 'Ovários policísticos', 'Menopausa', 'Testosterona baixa']],
+    ['cond_hormonio', 'Hormônios', 'm', ['Hipotireoidismo', 'Hipertireoidismo']],
+    ['cond_horm_h', 'Hormônios (homem)', 'm', ['Testosterona baixa', 'Próstata aumentada'], 'Masculino'],
+    ['cond_horm_m', 'Hormônios (mulher)', 'm', ['Menopausa', 'Ovários policísticos', 'Endometriose'], 'Feminino'],
     ['cond_ossos', 'Ossos e articulações', 'm', ['Osteoporose', 'Artrose', 'Artrite reumatoide', 'Hérnia de disco', 'Dor lombar crônica', 'Fibromialgia', 'Perda de massa muscular']],
     ['cond_outras', 'Outras', 'm', ['Anemia', 'Doença autoimune', 'Neuropatia nos pés', 'Câncer (tratamento ou acompanhamento)', 'Feridas que demoram a cicatrizar', 'Retinopatia ou glaucoma']],
     ['cond_mental', 'Saúde mental', 'm', ['Ansiedade', 'Depressão', 'Insônia', 'Transtorno bipolar', 'Transtorno alimentar']],
-    ['cond_texto', 'Outras condições (descreva)', 't']
+    ['cond_texto', 'Outras condições (descreva)', 't'],
+    ['cond_controle', 'Suas condições estão controladas', 'u', ['Sim', 'Mais ou menos', 'Não', 'Não sei']],
+    ['cond_preocupa', 'Qual condição mais preocupa você hoje', 't'],
+    ['acompanhamento', 'Faz acompanhamento médico regular', 'u', ['Sim', 'Às vezes', 'Não']],
+    ['exames_todos', 'Exames feitos no último ano', 'm', ['Hemograma', 'Glicose', 'Colesterol', 'Função dos rins', 'Fígado', 'Tireoide', 'Vitamina B12', 'Vitamina D', 'Nenhum']],
+    ['exames_homem', 'Exames do homem feitos no último ano', 'm', ['PSA', 'Testosterona'], 'Masculino'],
+    ['exames_mulher', 'Exames da mulher feitos no último ano', 'm', ['Preventivo (Papanicolau)', 'Mamografia', 'Estradiol e FSH'], 'Feminino']
   ]},
   { sec: 'Cirurgias, internações e tratamentos', q: [
     ['cirurgias', 'Cirurgias que já fez', 'm', ['Bariátrica', 'Coração', 'Coluna', 'Joelho ou quadril (inclusive prótese)', 'Ombro', 'Abdominal ou hérnia', 'Vesícula', 'Intestino ou estômago', 'Amputação', 'Outra']],
@@ -130,10 +138,20 @@ APPDATA.QUESTIONARIO = [
     ['fumo', 'Cigarro', 'u', ['Nunca fumei', 'Parei', 'Fumo']],
     ['familia', 'Doenças na família (pais e irmãos)', 'm', ['Diabetes', 'Pressão alta', 'Infarto', 'AVC', 'Câncer', 'Doença renal', 'Alzheimer']]
   ]},
-  { sec: 'Remédios (só para os alertas)', q: [
-    ['insulina', 'Usa insulina', 's'],
-    ['rem_diabetes', 'Remédios para diabetes', 'm', ['Metformina', 'Glibenclamida', 'Gliclazida', 'Outros', 'Nenhum']],
+  { sec: 'Remédios (só para os alertas — o app nunca sugere mudar remédios)', q: [
+    ['insulina', 'Usa insulina ou remédio que pode baixar muito a glicose (como glibenclamida ou gliclazida)', 's'],
+    ['rem_tipos', 'Usa algum destes', 'm', ['Anticoagulante', 'Remédio para pressão', 'Diurético', 'Corticoide', 'Remédio para tireoide', 'Metformina', 'Nenhum']],
     ['rem_outros', 'Outros remédios de uso contínuo', 't']
+  ]},
+  { sec: 'Vacinas (Calendário Nacional 2026)', reav: true, q: [
+    ['vac_gripe', 'Gripe (influenza) — 1 dose por ano', 'u', ['Em dia', 'Atrasada', 'Não sei']],
+    ['vac_covid', 'Covid-19 — reforços conforme idade e grupo', 'u', ['Em dia', 'Atrasada', 'Não sei']],
+    ['vac_hepb', 'Hepatite B — 3 doses', 'u', ['Em dia', 'Atrasada', 'Não sei']],
+    ['vac_dt', 'Dupla adulto (difteria e tétano) — reforço a cada 10 anos', 'u', ['Em dia', 'Atrasada', 'Não sei']],
+    ['vac_triplice', 'Tríplice viral (sarampo, caxumba, rubéola) — até 59 anos', 'u', ['Em dia', 'Atrasada', 'Não sei', 'Não se aplica']],
+    ['vac_febre', 'Febre amarela', 'u', ['Em dia', 'Atrasada', 'Não sei']],
+    ['vac_pneumo', 'Pneumocócica — idosos e grupos especiais', 'u', ['Em dia', 'Atrasada', 'Não sei', 'Não se aplica']],
+    ['vac_hpv', 'HPV — grupos definidos pelo SUS', 'u', ['Em dia', 'Atrasada', 'Não sei', 'Não se aplica']]
   ]},
   { sec: 'Objetivos', q: [
     ['objetivos', 'Seus objetivos', 'm', ['Ganhar músculo', 'Controlar a glicose', 'Emagrecer', 'Ganhar peso', 'Dormir melhor', 'Mais disposição', 'Melhorar a testosterona', 'Reduzir a pressão', 'Melhorar o intestino', 'Reduzir o estresse']],
@@ -236,8 +254,17 @@ APPDATA.EXAMES = [
   ['Vitamina B12', 'pg/mL', 200, 900, null, 'Reforçar fígado, ovos, sardinha e leite. Converse com seu médico.'],
   ['Vitamina D', 'ng/mL', 30, 100, null, 'Reforçar sardinha e gema; tomar sol pela manhã; parte do treino ao ar livre.'],
   ['Ferritina', 'ng/mL', 30, 400, null, 'Reforçar fígado e folhas verdes com limão; reduzir a intensidade do treino até melhorar.'],
-  ['Testosterona total', 'ng/dL', 300, 1000, null, 'Reforçar zinco (fígado, sementes de abóbora), gorduras boas e proteína; aumentar o treino de força; cuidar do sono.'],
-  ['PSA', 'ng/mL', 0, 4, 'Sem mudança automática. Converse com seu médico.', null],
+  ['Testosterona total', 'ng/dL', 300, 1000, null, 'Reforçar zinco (fígado, sementes de abóbora), gorduras boas e proteína; aumentar o treino de força; cuidar do sono.', 'Masculino'],
+  ['PSA', 'ng/mL', 0, 4, 'Sem mudança automática. Converse com seu médico.', null, 'Masculino'],
+  ['Estradiol', 'pg/mL', null, null, 'Sem mudança automática. Converse com seu médico.', 'Sem mudança automática. Converse com seu médico.', 'Feminino'],
+  ['FSH', 'mUI/mL', null, null, 'Sem mudança automática. Converse com seu médico.', null, 'Feminino'],
+  ['Ácido úrico', 'mg/dL', 2.5, 7, 'Menos miúdos, frutos do mar, álcool e bebidas açucaradas; mais água.', null],
+  ['Hemoglobina', 'g/dL', 12, 17.5, null, 'Reforçar fígado, carnes, feijão e folhas verdes com limão; reduzir a intensidade do treino até melhorar.'],
+  ['Taxa de filtração (TFG)', 'mL/min', 60, 999, null, 'Não aumentar a proteína; reduzir sal. Converse com seu médico.'],
+  ['TGO', 'U/L', 0, 40, 'Cortar álcool, frituras e açúcar; acrescentar caminhada.', null],
+  ['Gama-GT', 'U/L', 0, 60, 'Cortar álcool, frituras e açúcar; acrescentar caminhada.', null],
+  ['Potássio', 'mEq/L', 3.5, 5, 'Sem mudança automática. Converse com seu médico.', 'Sem mudança automática. Converse com seu médico.'],
+  ['Cálcio', 'mg/dL', 8.5, 10.5, null, 'Reforçar leite, iogurte, queijo e sardinha com espinha; sol pela manhã.'],
   ['TSH', 'mUI/L', 0.4, 4.5, 'Sem mudança automática. Converse com seu médico.', 'Sem mudança automática. Converse com seu médico.'],
   ['Pressão sistólica', 'mmHg', 0, 119, 'Reduzir sal, embutidos e enlatados; acrescentar caminhada; evitar prender a respiração nos exercícios.', null],
   ['Pressão diastólica', 'mmHg', 0, 79, 'Reduzir sal, embutidos e enlatados; acrescentar caminhada.', null],
