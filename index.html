@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2f6f5e">
+<link rel="manifest" href="manifest.json">
+<title>Saúde e Rotina</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--tx:#222;--mut:#666;--ac:#2f6f5e;--acl:#e3f1ec;--bd:#e2e0da;--warn:#fff4e0;--wtx:#8a5a00;--dan:#fdecec;--dtx:#9b2222}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#22221f;--tx:#eee;--mut:#aaa;--ac:#6fc3a8;--acl:#1f3a32;--bd:#3a3935;--warn:#3a2e14;--wtx:#f3c76b;--dan:#3d1c1c;--dtx:#f2a0a0}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:17px;line-height:1.5}
+header{position:sticky;top:0;background:var(--ac);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+header h1{font-size:19px;margin:0;font-weight:600}
+main{max-width:720px;margin:0 auto;padding:12px 12px 90px}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bd);display:flex;overflow-x:auto;z-index:5}
+nav button{flex:1;min-width:70px;border:0;background:none;padding:10px 4px;font-size:12px;color:var(--mut)}
+nav button.on{color:var(--ac);font-weight:700}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:0 0 12px}
+.card h2{font-size:18px;margin:0 0 8px}.card h3{font-size:16px;margin:10px 0 6px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.it{display:grid;grid-template-columns:1fr 90px 46px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd)}
+.it:last-child{border-bottom:0}.plan{font-size:13px;color:var(--mut)}
+input,select,textarea{font:inherit;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);width:100%}
+input[type=checkbox],input[type=radio]{width:auto}
+button.b{font:inherit;padding:9px 14px;border-radius:8px;border:1px solid var(--ac);background:var(--ac);color:#fff;cursor:pointer}
+button.s{font:inherit;padding:7px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}
+.mut{color:var(--mut);font-size:14px}.ok{color:var(--ac)}
+.alert{background:var(--warn);color:var(--wtx);border-radius:10px;padding:10px 12px;margin:0 0 10px;font-size:15px}
+.danger{background:var(--dan);color:var(--dtx)}
+.tag{display:inline-block;background:var(--acl);color:var(--ac);border-radius:20px;padding:2px 10px;font-size:13px;margin:2px}
+.opts label{display:inline-flex;align-items:center;gap:6px;margin:4px 10px 4px 0;font-size:15px}
+.q{margin:0 0 12px}.q>div:first-child{font-weight:600;font-size:15px;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{border-bottom:1px solid var(--bd);padding:6px 4px;text-align:left}
+.cnt{display:flex;align-items:center;gap:10px}.cnt b{font-size:22px;min-width:30px;text-align:center}
+.toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:20px;font-size:14px;z-index:9;display:none}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 12px}
+.met{background:var(--bg);border-radius:10px;padding:10px;display:flex;flex-direction:column}.met b{font-size:20px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;font:inherit;color:var(--tx);cursor:pointer}
+.bar{height:10px;background:var(--bd);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+</style>
+</head>
+<body>
+<header><h1>Saúde e Rotina</h1><span id="hdr" class="mut" style="color:#fff"></span></header>
+<main id="app"><div class="card">Carregando…</div></main>
+<nav id="nav" style="display:none">
+  <button data-t="inicio">Início</button>
+  <button data-t="hoje">Registrar</button>
+  <button data-t="plano">Plano</button>
+  <button data-t="avaliacao">Avaliação</button>
+  <button data-t="exames">Exames</button>
+  <button data-t="emocional">Emocional</button>
+  <button data-t="relatorio">Relatórios</button>
+  <button data-t="admin" style="display:none">Admin</button>
+</nav>
+<div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
