@@ -1,8 +1,11 @@
 // Treinamento de uso do sistema. Atualize este arquivo sempre que o app mudar
 // e aumente a VERSAO para que todos vejam o aviso de novidades.
 window.AJUDA = {
-  VERSAO: '1.1 — 20/11/2026',
+  VERSAO: '1.2 — 23/11/2026',
   NOVIDADES: [
+    'Visual novo e colorido: cada área do app tem sua própria cor, barra de navegação flutuante e painel com anel de progresso da dieta.',
+    'No painel, as estrelas mostram quantas metas do dia você cumpriu: sono, água (10 copos), treino, humor e dieta completa.',
+    'A pergunta sobre gravidez e amamentação aparece só para mulheres.',
     'Desenho ensinando onde medir a cintura na avaliação.',
     'Perguntas e exames conforme o sexo: PSA e testosterona para homens; preventivo, mamografia, estradiol e FSH para mulheres.',
     'Novo bloco de vacinas do Calendário Nacional 2026, com gripe e covid-19.',
@@ -53,7 +56,7 @@ window.AJUDA = {
       'Se estiver muito triste ou pensando em se machucar, ligue para o CVV no 188 (24 horas, gratuito).'
     ]},
     { t: '6. Acompanhe os resultados', p: [
-      'O painel de início mostra o dia de hoje e os últimos 7 dias.',
+      'O painel de início mostra o anel com o quanto da dieta de hoje já foi registrado, as estrelas das 5 metas do dia (sono, água, treino, humor e dieta completa) e os últimos 7 dias.',
       'Em Relatórios você vê 7 ou 30 dias, o impacto (por exemplo, o sono nos dias com e sem treino) e a tabela dia a dia.',
       'O Relatório da semana mostra o que você usou, o que não usou, o seu avanço e onde a dieta está falhando mais.'
     ]},

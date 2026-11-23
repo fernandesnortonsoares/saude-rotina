@@ -132,7 +132,7 @@ APPDATA.QUESTIONARIO = [
     ['cirurgias_texto', 'Detalhes das cirurgias (qual, ano, restrições)', 't'],
     ['internacao', 'Foi internado nos últimos 12 meses (e por quê)', 't'],
     ['tratamentos', 'Tratamentos em andamento', 'm', ['Quimioterapia ou radioterapia', 'Diálise', 'Fisioterapia', 'Psicoterapia', 'Reabilitação cardíaca ou pulmonar', 'Nutricionista', 'Outro']],
-    ['gestante', 'Está grávida ou amamentando', 's'],
+    ['gestante', 'Está grávida ou amamentando', 's', null, 'Feminino'],
     ['limitacao', 'Limitação de movimento', 'm', ['Cadeira de rodas', 'Bengala ou andador', 'Equilíbrio', 'Visão', 'Audição']],
     ['queda', 'Caiu nos últimos 12 meses', 's'],
     ['fumo', 'Cigarro', 'u', ['Nunca fumei', 'Parei', 'Fumo']],

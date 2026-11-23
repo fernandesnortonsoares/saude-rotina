@@ -12,7 +12,7 @@ const CINTURA_SVG = `<svg viewBox="0 0 220 230" style="width:170px;display:block
 <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
 <circle cx="110" cy="22" r="16"/><path d="M96 40 Q70 46 64 70 L58 120 Q62 150 72 170 L78 225"/><path d="M124 40 Q150 46 156 70 L162 120 Q158 150 148 170 L142 225"/>
 <path d="M64 70 L40 140"/><path d="M156 70 L180 140"/><path d="M110 170 L110 225"/></g>
-<g stroke="#2f6f5e" stroke-width="1.5" fill="none" stroke-dasharray="4 3"><path d="M60 100 H160"/><path d="M62 150 H158"/></g>
+<g stroke="#5b4bdb" stroke-width="1.5" fill="none" stroke-dasharray="4 3"><path d="M60 100 H160"/><path d="M62 150 H158"/></g>
 <text x="166" y="103" font-size="10" fill="currentColor">última costela</text><text x="164" y="153" font-size="10" fill="currentColor">osso do quadril</text>
 <ellipse cx="110" cy="125" rx="52" ry="7" fill="none" stroke="#d85a30" stroke-width="3.5"/>
 <text x="4" y="128" font-size="11" fill="#d85a30" font-weight="bold">medir aqui</text></svg>
@@ -104,8 +104,11 @@ async function renderInicio() {
   const nome = (S.profile.nome || '').split(' ')[0];
   const hora = new Date().getHours();
   const saud = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite';
-  const tile = (t, ic, label, info) => `<button class="tile" data-go="${t}"><span style="font-size:22px">${ic}</span><b>${label}</b><span class="mut">${info}</span></button>`;
-  let h = `<div class="card"><h2>${saud}${nome ? ', ' + esc(nome) : ''}!</h2><p class="mut">${fmtDia(hoje)}</p></div>`;
+  const tile = (t, ic, label, info) => `<button class="tile k-${t}" data-go="${t}"><span style="font-size:22px">${ic}</span><b>${label}</b><span class="mut">${info}</span></button>`;
+  const pct = plan.length ? Math.round((feitos / plan.length) * 100) : 0;
+  const pts = [sono, agua?.copos >= 10, treino?.voltas, emoc, feitos === plan.length && plan.length].filter(Boolean).length;
+  const ring = `<svg viewBox="0 0 120 120" style="width:104px;flex:none"><circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.25)" stroke-width="12" fill="none"/><circle cx="60" cy="60" r="50" stroke="#fff" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${(pct / 100) * 314} 314" transform="rotate(-90 60 60)"/><text x="60" y="58" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">${pct}%</text><text x="60" y="78" text-anchor="middle" font-size="11" fill="#fff">da dieta</text></svg>`;
+  let h = `<div class="card hero" style="display:flex;gap:14px;align-items:center"><div style="flex:1"><h2 style="font-size:22px;margin:0 0 4px">${saud}${nome ? ', ' + esc(nome) : ''}!</h2><p class="mut" style="margin:0 0 8px">${fmtDia(hoje)}</p><div style="font-size:14px">${'⭐'.repeat(pts)}${'☆'.repeat(5 - pts)} metas do dia</div><div style="font-size:13px;opacity:.9;margin-top:4px">Sono, água, treino, humor e dieta completa</div></div>${ring}</div>`;
   if ((S.profile.config || {}).ajuda_versao !== window.AJUDA.VERSAO) h += `<div class="alert">${(S.profile.config || {}).ajuda_versao ? 'O app foi atualizado. Veja as novidades e como usar.' : 'Primeira vez aqui? Veja o treinamento rápido de como usar o app.'} <button class="s" data-go="ajuda">Abrir treinamento</button></div>`;
   h += validadeHTML() + lemb + alertasHTML();
   h += `<div class="card"><h2>Hoje</h2><div class="grid2">

@@ -6,6 +6,10 @@ App web instalável (PWA) para medir e organizar alimentação, exercícios, son
 - Banco de dados: Supabase, projeto **Saude e Rotina** (`sacxnnvxexbtgsstrzyc`, região São Paulo)
 - Versão do treinamento: veja `ajuda.js` (`AJUDA.VERSAO`)
 
+## Visual
+
+Paleta principal índigo e violeta com destaque coral (`--ac`, `--ac2`), fonte Nunito, cartões arredondados, barra de navegação flutuante e uma cor própria para cada área (`--c1` a `--c9`), com versão para modo escuro.
+
 ## Arquivos
 
 | Arquivo | O que tem |
@@ -20,7 +24,7 @@ App web instalável (PWA) para medir e organizar alimentação, exercícios, son
 
 | Tela | Função |
 |---|---|
-| Início | Painel: avisos, resumo de hoje e dos últimos 7 dias, atalhos para tudo |
+| Início | Painel: destaque com anel de progresso da dieta e estrelas das 5 metas do dia, avisos, resumo de hoje e dos últimos 7 dias, atalhos coloridos para tudo |
 | Registrar | Sono, refeições (peso comido por item, troca, fora do plano), água e sucos, treino, leitura e lazer, redes sociais, sol, tempo sentado, humor, estresse, finanças e hábitos |
 | Plano | Plano semanal editável, plano modelo, sugestões para aceitar ou recusar |
 | Avaliação | Questionário completo (saúde com todas as condições com o mesmo peso, cirurgias, tratamentos, remédios só para alertas, vacinas do Calendário Nacional 2026, rotina, alimentação, finanças, sono, atividade, hábitos do dia a dia e redes sociais, vícios, saúde sexual), perguntas conforme o sexo, desenho de como medir a cintura e geração de alertas e sugestões |
