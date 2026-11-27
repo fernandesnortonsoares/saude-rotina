@@ -67,3 +67,7 @@ Paleta principal índigo e violeta com destaque coral (`--ac`, `--ac2`), fonte N
 2. **Atualizar o treinamento em `ajuda.js`**: lições afetadas, lista de NOVIDADES e `VERSAO`. Ao mudar a versão, todos veem o aviso de novidades no painel.
 3. **Atualizar este README.**
 4. Enviar para o GitHub (`main`); o GitHub Pages publica sozinho.
+
+## Próximos passos (anotados)
+
+- [ ] Frases de motivação: reunir 1000 frases para exibir no app (por exemplo, uma por dia no painel de início). Ainda não iniciado.
